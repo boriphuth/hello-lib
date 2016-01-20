@@ -23,3 +23,10 @@
 ลง jenkins plugin Git 
 - Manage Jenkins -> Manage Plugins
 - ที่ tab Available ค้นหา git แล้วเลือก กด install
+- ติดตั้งเสร็จไปตั้งค่า Manage Jenkins -> Configuration System ต้งต่า Git client path ถ้ามี ตามภาพ pic-2 ของผมมีอยู่แล้ว
+- config อีกจุด Git plugin ใส่ชื่อที่ตัวเอง และ email ที่สมัคร github ไว้ ตามภาพ pic-3
+
+เอาละ มาทดสอบ pull source จาก github ด้วย jenkins กันเลย
+- ไปที่ jenkins เลือก New Item เพื่อสร้าง job ใส่ข้อมูงและเลือกตามภาพ 4
+- ที่ Source Code Management เลือก git แล้วใส่ข้อมูลตามภาพ 5
+

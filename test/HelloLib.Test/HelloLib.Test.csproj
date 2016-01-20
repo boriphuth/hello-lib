@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>169615a4-4375-479c-8b1f-4d855e609344</ProjectGuid>
+    <ProjectGuid>{F8D5CE25-EAE5-4158-BEAF-4C83125300E5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HelloLib.Test</RootNamespace>
