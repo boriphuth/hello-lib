@@ -1,0 +1,25 @@
+ติดตั้ง jenkins server
+- download https://jenkins-ci.org/content/thank-you-downloading-windows-installer/
+- extrac zip แล้วกดติดตั้งไปตามปกติ
+- ติดตั้งเสร็จจะเปิดหน้าแรกให้เราเลย http://localhost:8080/
+- ไปที่ Manage Jenkins -> Manage Plugins
+
+
+ลง plugin ตามนี้
+- git -> https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin
+- MSBuild -> https://wiki.jenkins-ci.org/display/JENKINS/MSBuild+Plugin
+- VsTestRunner -> https://wiki.jenkins-ci.org/display/JENKINS/VsTestRunner+Plugin
+- xfpanel -> https://wiki.jenkins-ci.org/display/JENKINS/eXtreme+Feedback+Panel+Plugin
+
+เริ่มต้น
+- สร้าง repository ที่ github ก่อน ตั้งชื่อ reposotory ตามชื่อโครงการ ผมให้้ชื่อว่า hello-lib
+- มาที่เครื่องเรา clone hello-lib จาก github ลงมา
+- เปิด Visual Studio สร้าง project เป็น Blank Solution ให้เลือก folder ที่เป็น parent ของ folder ที่เรา clone hello-lib ลงมา
+- ตั้งชื่อ project ว่า hello-lib จะแสดงโครงสร้าง ดู images\pic-1.npg
+- สร้าง project แรกเป็น Unit Test Project ตั้งชื่อว่า HelloLib.Test ใส่ไว้ใน folder test
+- push file ใหม่เข้าไปที่ github hello-lib
+
+
+ลง jenkins plugin Git 
+- Manage Jenkins -> Manage Plugins
+- ที่ tab Available ค้นหา git แล้วเลือก กด install
