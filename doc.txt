@@ -1,3 +1,5 @@
+ติดตั้ง visual studio 2013 หรือ 2015 community ก็ได้ก่อน
+
 ติดตั้ง jenkins server
 - download https://jenkins-ci.org/content/thank-you-downloading-windows-installer/
 - extrac zip แล้วกดติดตั้งไปตามปกติ
@@ -20,13 +22,69 @@
 - push file ใหม่เข้าไปที่ github hello-lib
 
 
-ลง jenkins plugin Git 
+ติดตั้ง jenkins plugin Git 
 - Manage Jenkins -> Manage Plugins
 - ที่ tab Available ค้นหา git แล้วเลือก กด install
 - ติดตั้งเสร็จไปตั้งค่า Manage Jenkins -> Configuration System ต้งต่า Git client path ถ้ามี ตามภาพ pic-2 ของผมมีอยู่แล้ว
 - config อีกจุด Git plugin ใส่ชื่อที่ตัวเอง และ email ที่สมัคร github ไว้ ตามภาพ pic-3
+- เสร็จแล้ว กด save ครับ
 
 เอาละ มาทดสอบ pull source จาก github ด้วย jenkins กันเลย
 - ไปที่ jenkins เลือก New Item เพื่อสร้าง job ใส่ข้อมูงและเลือกตามภาพ 4
 - ที่ Source Code Management เลือก git แล้วใส่ข้อมูลตามภาพ 5
+- ออกไปข้านอก ลองกด run job ดู เมื่อ run job สำเร็จจะ สภานะจะเป็นสีน้ำเงิน ตามภาพ 6
+- ไปดูที่ folder ที่ติดตั้งเจนกิน C:\Program Files (x86)\Jenkins\jobs\hello-lib\workspace จะแสดง source file ที่ clone มากจาก 
+hello-lib เรียบร้อยแล้ว ดังภาพ 7
+
+ทีนี้มาถึงขั้นตอน build solution กันต่อ
+ให้ติดตั้ง jenkins plugin MSBuild
+- เหมือนเดิม ไปที่ Manage Jenkins -> Manage Plugins ดูภาพ 8
+- ที่ tab Available ค้นหา MSBuild แล้วเลือก กด install ดูภาพ 9
+- ติดตั้งเสร็จ ต้องไป config MSBuild ไปที่ Manage Jenkins -> Configure System ดูภาพ 10
+- ที่ส่วนของ MSBuild กด Add MSBuild แล้วใส่ค่า cofig ดังภาพ 11 
+- เสร็จแล้ว กด save ครับ
+
+เมือติดตั้ง jenkins plugin MSBuild และ config เป็นที่เรียบร้อยแล้ว ก็กลับไปที่ job hello-lib เพื่อเพิ่มขั้นตอน build code กันครับ
+- ไปที่ job hello-lib เลือก Configure 
+- ไปที่ส่วนของ Build กด Add build step > Build a Visual Studio project or solution using MSBuild แล้ว config ตามภาพ 12
+- กด save ครับ
+
+ทีนี้พอเราทดลองกด run build อีกที นอกจากเราจะได้ source code ใหม่จาก github แล้ว job นี้ก็ยัง build code ให้เราอีกด้วย 
+โดยดูไปดูที่ folde der HelloLib.Test จะได้จาก folder bin เพิ่มขึ้นมานั่นคือ build file ของเราครับ ดูภาพ 13
+
+ให้ลองลบ file ทั้งหมดใน \Jenkins\jobs\hello-lib\workspace แล้วกด job ใหม่ดูครับ 
+
+เอาละเราได้ automate build แล้วละครับทีนี้ ต่อไปก็พัฒนาซอฟแวร์ต่อ
+
+ผมจะใช้เทคนิคที่เรียกว่า Test-Driven Development (TDD) โดยผลลัพย์ขั้นสุดท้ายของเรา ต้องถูกกฏง่ายๆ 2 ข้อ คือ
+1 ต้องมี automate test
+2 code ที่เขียนต้องไม่ซ้ำซ้อนกัน
+โดยขั้นตอนการทำ TDD มี 3 ขั้นตอน คือ
+1 เขียนทดสอบผลลัพย์ที่ต้องการให้เป็นผิดพลาด หรือขั้นตอน Red
+2 เขียน code ให้ได้ผลลัพย์ที่ทดสอบผ่าน หรือขั้นตอน Green
+3 แก้ไข code ให้ไม่ซ้ำซ้อนกัน หรือที่เรียกว่า Refactor
+
+จากกฎบังคับของ TDD ข้อแรก คือผลลัพย์จะต้องมี automate test แต่ตอนนี้ผมมี แต่ automate build 
+งั้นเรามาติดตั้ง automate test ให้ jenkins กันก่อน
+
+ติดตั้ง jenkins plugin VsTestRunner
+- ไปที่ Manage Jenkins -> Manage Plugins ดูภาพ 8
+- ที่ tab Available ค้นหา VsTestRunner แล้วเลือก VsTestRunner และ MSTest(ใช้แสดง test report) ด้วยครับ กด install ดูภาพ 14
+- พอเรากด install ให้เราเลือก Restart Jenkins when ... ตามภาพ 15 ครับ
+- พอติดตั้งเสร็จ ก็กลับไปที่ Manage Jenkins -> Configuration System 
+- ไปที่ส่วนของ VSTest กด Add VSTest แล้ว config ตามภาพ 16
+
+กลับไปที่ job hello-lib ครับ
+- ไปที่ Configure กด Add build step เพิ่ม automate test 
+- ใส่ข้อมูลตามภาพ 17 
+- ก็ไปที่ Post-build Action กด Add post-build action 
+- เพิ่ม step action Publish MSTest test result report แล้ว config ตามภาพ 18 ครับ
+- กด save ครับ
+
+ลองกลับไปกด build job hello-lib ดูครับ ถ้า build สำเร็จ จะปรากฏ folder TestResults 
+นั่นหมายความว่าเรามี automate test ไว้ใช้แล้วครับ ดูภาพ 19 
+(ดูจากภาพ ผม build ไปหลายรอบแล้วครับ เพราะว่า config ผิดไปหลายรอบก่อนจะเขียนที่ถูกต้องมานำเสนอนี้ได้ :)
+
+ทีนี้เราก็พร้อมทำ TDD กันได้แล้วล่ะ
+
 
