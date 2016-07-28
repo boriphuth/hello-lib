@@ -10,8 +10,9 @@ namespace HelloLib.Test
         public void TestMethod1()
         {
             string expected = "Hi, TestMethod1";
-            string name = "TestMethod1";
-            string actual = "Hi, " + name;
+            string name = "Tes tMethod1";
+            string actual = null;
+            //string actual = "Hi, " + name;
 
             Assert.AreEqual(expected, actual);
         }
